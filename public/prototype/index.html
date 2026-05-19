@@ -7,8 +7,8 @@
 <link rel="stylesheet" href="tokens.css">
 <link rel="stylesheet" href="components.css">
 <style>
-  main { max-width: 640px; margin: 0 auto; padding: var(--s10) var(--s6); }
-  .screen-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s4); margin-top: var(--s7); }
+  main { max-width: 760px; margin: 0 auto; padding: var(--s10) var(--s6); }
+  .screen-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: var(--s4); margin-top: var(--s7); }
   .screen-link {
     display: block; padding: var(--s5);
     background: var(--bg-surface);
@@ -26,6 +26,7 @@
   }
   .screen-title { font-size: var(--text-md); font-weight: var(--weight-semi); color: var(--text-display); }
   .screen-desc { font-size: var(--text-sm); color: var(--text-secondary); margin-top: var(--s1); line-height: var(--leading-base); }
+  .section-label { font-size: var(--text-xs); font-weight: var(--weight-semi); text-transform: uppercase; letter-spacing: var(--tracking-wide); color: var(--text-tertiary); margin: var(--s7) 0 var(--s3); }
 </style>
 </head>
 <body>
@@ -39,38 +40,72 @@
   </div>
 
   <h1 class="t-h1" style="margin-bottom: var(--s3);">Product prototype</h1>
-  <p class="t-body t-muted">Six screens covering the end-to-end flow. Click any to explore the design.</p>
+  <p class="t-body t-muted">11 screens covering the complete user journey. Click any to explore.</p>
 
+  <div class="section-label">Onboarding</div>
   <div class="screen-grid">
+    <a class="screen-link" href="00-login.html">
+      <div class="screen-num">Screen 0</div>
+      <div class="screen-title">Sign up / Login</div>
+      <div class="screen-desc">Auth screen with Google SSO or email/password. Social proof above the fold.</div>
+    </a>
     <a class="screen-link" href="01-landing.html">
       <div class="screen-num">Screen 1</div>
       <div class="screen-title">Landing page</div>
-      <div class="screen-desc">Value prop, hero, how-it-works, CTA to start your first negotiation.</div>
+      <div class="screen-desc">Value prop, stats, how-it-works, provider chips across bills + financial + new accounts.</div>
     </a>
+    <a class="screen-link" href="07-pricing.html">
+      <div class="screen-num">Screen 7</div>
+      <div class="screen-title">Pricing</div>
+      <div class="screen-desc">Pay-per-call ($5), Monthly ($15/mo), Annual ($99/yr) with ROI calculator and FAQ.</div>
+    </a>
+  </div>
+
+  <div class="section-label">Negotiation flow</div>
+  <div class="screen-grid">
     <a class="screen-link" href="02-add-bill.html">
       <div class="screen-num">Screen 2</div>
       <div class="screen-title">Add a bill</div>
-      <div class="screen-desc">Enter provider, monthly cost, tenure, and your goal before the call.</div>
+      <div class="screen-desc">Bills, financial accounts, or opening a new account. Provider grid + goal selection.</div>
+    </a>
+    <a class="screen-link" href="02b-verify.html">
+      <div class="screen-num">Screen 2b</div>
+      <div class="screen-title">Account verification</div>
+      <div class="screen-desc">Phone number, account number (encrypted vault), ZIP. Security explanation.</div>
     </a>
     <a class="screen-link" href="03-pre-call.html">
       <div class="screen-num">Screen 3</div>
       <div class="screen-title">Pre-call brief</div>
-      <div class="screen-desc">Agent's strategy, leverage points, what it will say — review before dialling.</div>
+      <div class="screen-desc">Agent's strategy, ranked leverage points, opening script, barge-in options.</div>
     </a>
     <a class="screen-link" href="04-live-call.html">
       <div class="screen-num">Screen 4</div>
       <div class="screen-title">Live call</div>
-      <div class="screen-desc">Live transcript, agent status, waveform, Cekura QA panel, barge-in button.</div>
+      <div class="screen-desc">Live transcript (speaking as you), waveform, Cekura QA panel, whisper bar.</div>
     </a>
+    <a class="screen-link" href="04b-async.html">
+      <div class="screen-num">Screen 4b</div>
+      <div class="screen-title">Async / go do something else</div>
+      <div class="screen-desc">Call started interstitial — notification options, status card, link to watch live.</div>
+    </a>
+  </div>
+
+  <div class="section-label">Results</div>
+  <div class="screen-grid">
     <a class="screen-link" href="05-results.html">
       <div class="screen-num">Screen 5</div>
-      <div class="screen-title">Results</div>
-      <div class="screen-desc">Discount achieved, confirmation number, annualised savings, call summary.</div>
+      <div class="screen-title">Results — Win 🎉</div>
+      <div class="screen-desc">$39/mo saved, confirmed terms, full call timeline, share + next CTA.</div>
+    </a>
+    <a class="screen-link" href="05b-no-deal.html">
+      <div class="screen-num">Screen 5b</div>
+      <div class="screen-title">Results — No deal 🤝</div>
+      <div class="screen-desc">Walk-away hit, what happened, 4 next steps (retry/adjust/cancel/switch).</div>
     </a>
     <a class="screen-link" href="06-dashboard.html">
       <div class="screen-num">Screen 6</div>
       <div class="screen-title">Dashboard</div>
-      <div class="screen-desc">All past negotiations, total saved, win rate, history log with re-call button.</div>
+      <div class="screen-desc">All-time savings, negotiation history (bills + financial), self-learning chart 62→94%.</div>
     </a>
   </div>
 </main>

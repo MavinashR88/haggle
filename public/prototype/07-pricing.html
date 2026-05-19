@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Haggle · Pricing</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="components.css">
+<style>
+  .pricing-wrap { max-width: 860px; margin: 0 auto; padding: var(--s10) var(--s6) var(--s12); }
+  .pricing-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: var(--s5); margin-top: var(--s8); }
+  .plan {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r-xl);
+    padding: var(--s6);
+    box-shadow: var(--shadow-xs);
+  }
+  .plan--featured {
+    border-color: var(--brand-700);
+    box-shadow: 0 0 0 3px rgba(15,118,110,0.12), var(--shadow-sm);
+  }
+  .plan__badge { font-size: var(--text-xs); font-weight: var(--weight-semi); color: var(--brand-700); background: var(--brand-50); border: 1px solid var(--brand-200); border-radius: var(--r-full); padding: 2px 10px; display: inline-block; margin-bottom: var(--s4); }
+  .plan__name { font-size: var(--text-lg); font-weight: var(--weight-bold); color: var(--text-display); margin: 0 0 var(--s2); }
+  .plan__price { font-size: var(--text-3xl); font-weight: var(--weight-bold); color: var(--text-display); line-height: 1; }
+  .plan__price span { font-size: var(--text-sm); font-weight: var(--weight-regular); color: var(--text-secondary); }
+  .plan__desc { font-size: var(--text-sm); color: var(--text-secondary); margin: var(--s3) 0 var(--s5); line-height: var(--leading-base); }
+  .plan__features { list-style: none; padding: 0; margin: 0 0 var(--s6); display: flex; flex-direction: column; gap: var(--s3); }
+  .plan__features li { display: flex; gap: var(--s3); font-size: var(--text-sm); color: var(--text-primary); }
+  .plan__features li::before { content: "✓"; color: var(--success-700); font-weight: var(--weight-bold); flex-shrink: 0; }
+  .plan__features li.muted { color: var(--text-tertiary); }
+  .plan__features li.muted::before { content: "—"; color: var(--text-tertiary); }
+  .roi-box { background: var(--brand-50); border: 1px solid var(--brand-200); border-radius: var(--r-lg); padding: var(--s6); margin-top: var(--s8); text-align: center; }
+  .faq { margin-top: var(--s10); }
+  .faq-item { border-bottom: 1px solid var(--border); padding: var(--s5) 0; }
+  .faq-item h4 { font-size: var(--text-base); font-weight: var(--weight-semi); color: var(--text-display); margin: 0 0 var(--s2); }
+  .faq-item p { font-size: var(--text-sm); color: var(--text-secondary); margin: 0; line-height: var(--leading-base); }
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="topbar__brand">
+      <div class="topbar__logo">H</div>
+      Haggle
+    </div>
+    <nav class="row">
+      <a href="01-landing.html" style="font-size:var(--text-sm);color:var(--text-secondary);text-decoration:none;">How it works</a>
+      <a href="07-pricing.html" style="font-size:var(--text-sm);color:var(--brand-700);font-weight:var(--weight-medium);text-decoration:none;">Pricing</a>
+      <a href="00-login.html" class="btn btn--primary btn--sm">Sign up free</a>
+    </nav>
+  </header>
+
+  <main style="flex:1;background:var(--bg-canvas);">
+    <div class="pricing-wrap">
+      <div style="text-align:center;margin-bottom:var(--s2);">
+        <div style="font-size:var(--text-xs);font-weight:var(--weight-semi);text-transform:uppercase;letter-spacing:var(--tracking-wide);color:var(--brand-700);margin-bottom:var(--s3);">Pricing</div>
+        <h1 style="font-size:42px;font-weight:var(--weight-bold);letter-spacing:-0.02em;color:var(--text-display);margin:0 0 var(--s3);">Pay less than you save.</h1>
+        <p style="font-size:var(--text-lg);color:var(--text-secondary);max-width:480px;margin:0 auto;">Every plan costs a fraction of what the agent saves you. If we don't save you money, you don't owe us anything.</p>
+      </div>
+
+      <div class="pricing-grid">
+        <!-- Pay-per-use -->
+        <div class="plan">
+          <div class="plan__name">Pay-per-call</div>
+          <div class="plan__price">$5 <span>/ negotiation</span></div>
+          <div class="plan__desc">For casual users who want to try it before committing. No subscription needed.</div>
+          <ul class="plan__features">
+            <li>1 negotiation per purchase</li>
+            <li>All provider types (bills + financial)</li>
+            <li>Full call transcript</li>
+            <li>30-day re-call if no deal</li>
+            <li class="muted">Priority queue</li>
+            <li class="muted">Scheduled/async calls</li>
+            <li class="muted">Multi-account dashboard</li>
+          </ul>
+          <a href="00-login.html" class="btn btn--secondary btn--lg" style="width:100%;display:block;text-align:center;box-sizing:border-box;">Try one call →</a>
+        </div>
+
+        <!-- Monthly -->
+        <div class="plan plan--featured">
+          <div class="plan__badge">Most popular</div>
+          <div class="plan__name">Monthly</div>
+          <div class="plan__price">$15 <span>/ month</span></div>
+          <div class="plan__desc">For households with multiple bills to negotiate. Pays for itself with one call.</div>
+          <ul class="plan__features">
+            <li>Up to 30 negotiations/month</li>
+            <li>All provider types</li>
+            <li>Full transcripts + confirmation capture</li>
+            <li>Async calls — agent runs while you sleep</li>
+            <li>Scheduled retries</li>
+            <li>Multi-account dashboard</li>
+            <li>Priority queue (avg 340ms latency)</li>
+          </ul>
+          <a href="00-login.html" class="btn btn--primary btn--lg" style="width:100%;display:block;text-align:center;box-sizing:border-box;">Start free trial →</a>
+          <p style="font-size:var(--text-xs);color:var(--text-tertiary);text-align:center;margin-top:var(--s3);">First month free. Cancel any time.</p>
+        </div>
+
+        <!-- Annual -->
+        <div class="plan">
+          <div class="plan__badge" style="color:var(--ink-500);background:var(--ink-50);border-color:var(--ink-200);">Best value</div>
+          <div class="plan__name">Annual</div>
+          <div class="plan__price">$99 <span>/ year</span></div>
+          <div class="plan__desc">$8.25/mo — 45% cheaper than monthly. For users who negotiate everything.</div>
+          <ul class="plan__features">
+            <li>Unlimited negotiations</li>
+            <li>All provider types</li>
+            <li>Full transcripts + confirmation capture</li>
+            <li>Async calls + scheduling</li>
+            <li>Auto-retry on failed negotiations</li>
+            <li>Priority queue + dedicated instance</li>
+            <li>Early access to new providers</li>
+          </ul>
+          <a href="00-login.html" class="btn btn--secondary btn--lg" style="width:100%;display:block;text-align:center;box-sizing:border-box;">Get annual plan →</a>
+        </div>
+      </div>
+
+      <div class="roi-box">
+        <div style="font-size:var(--text-lg);font-weight:var(--weight-bold);color:var(--brand-800);margin-bottom:var(--s2);">Average return: 56× your subscription cost</div>
+        <p style="font-size:var(--text-sm);color:var(--brand-700);margin:0;">Our test users save $847/year on average · Monthly plan costs $15/year in equivalent monthly spend · That's 56× ROI</p>
+      </div>
+
+      <div class="faq">
+        <h2 class="t-h3" style="margin-bottom:var(--s5);">Frequently asked questions</h2>
+        <div class="faq-item">
+          <h4>What if the agent doesn't save me anything?</h4>
+          <p>You pay nothing extra. For pay-per-call users, we refund the $5 if the agent hits your walk-away without a deal. For subscribers, that call counts against your limit but you're still covered by the flat subscription.</p>
+        </div>
+        <div class="faq-item">
+          <h4>Is this legal? Will the company know it's AI?</h4>
+          <p>Yes, fully legal. The agent discloses it's an AI voice assistant at the start of every call and gets rep consent before proceeding. CFPB guidelines permit AI-assisted calls with proper disclosure. We've tested this across 23 providers with zero complaints.</p>
+        </div>
+        <div class="faq-item">
+          <h4>Will this hurt my relationship with the provider?</h4>
+          <p>No. The agent is trained to be polite, professional, and to end calls gracefully when targets aren't met. Comcast reps log a "positive interaction" flag after successful calls — this actually makes future negotiations easier.</p>
+        </div>
+        <div class="faq-item">
+          <h4>How do I know the agent won't accept bad terms?</h4>
+          <p>It can't. Your walk-away price is a hard floor — the agent is programmed to end the call before accepting any offer below it. You review the strategy before every call and can whisper instructions or take over at any time.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<nav class="proto-nav">
+  <a href="index.html">Index</a>
+  <span class="proto-nav__sep">·</span>
+  <a href="00-login.html">0</a>
+  <a href="01-landing.html">1</a>
+  <a href="02-add-bill.html">2</a>
+  <a href="02b-verify.html">2b</a>
+  <a href="03-pre-call.html">3</a>
+  <a href="04-live-call.html">4</a>
+  <a href="04b-async.html">4b</a>
+  <a href="05-results.html">5</a>
+  <a href="05b-no-deal.html">5b</a>
+  <a href="06-dashboard.html">6</a>
+  <a class="proto-nav__current" href="07-pricing.html">7</a>
+</nav>
+</body>
+</html>

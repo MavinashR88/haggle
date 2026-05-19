@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Haggle · Sign up</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="components.css">
+<style>
+  .auth-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: var(--bg-canvas); }
+  .auth-card { width: 100%; max-width: 420px; background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--r-xl); padding: var(--s8) var(--s7); box-shadow: var(--shadow-md); }
+  .auth-logo { display: flex; align-items: center; gap: var(--s3); margin-bottom: var(--s7); }
+  .field { margin-bottom: var(--s5); }
+  .field label { display: block; font-size: var(--text-sm); font-weight: var(--weight-medium); color: var(--text-display); margin-bottom: var(--s2); }
+  .divider { display: flex; align-items: center; gap: var(--s3); margin: var(--s5) 0; }
+  .divider hr { flex: 1; border: none; border-top: 1px solid var(--border); }
+  .divider span { font-size: var(--text-xs); color: var(--text-tertiary); }
+  .social-btn { width: 100%; display: flex; align-items: center; justify-content: center; gap: var(--s3); padding: var(--s3) var(--s4); border: 1px solid var(--border); border-radius: var(--r-md); background: var(--bg-surface); cursor: pointer; font-size: var(--text-sm); font-weight: var(--weight-medium); color: var(--text-display); margin-bottom: var(--s3); transition: background var(--t-fast); }
+  .social-btn:hover { background: var(--bg-raised); }
+  .auth-footer { text-align: center; font-size: var(--text-sm); color: var(--text-secondary); margin-top: var(--s5); }
+  .proof-strip { background: var(--brand-50); border: 1px solid var(--brand-200); border-radius: var(--r-md); padding: var(--s4); margin-bottom: var(--s6); text-align: center; }
+</style>
+</head>
+<body style="margin:0;">
+<div class="auth-wrap">
+  <div class="auth-card">
+    <div class="auth-logo">
+      <div class="topbar__logo">H</div>
+      <span style="font-size:var(--text-lg);font-weight:var(--weight-bold);color:var(--text-display);">Haggle</span>
+    </div>
+
+    <div class="proof-strip">
+      <div style="font-size:var(--text-xl);font-weight:var(--weight-bold);color:var(--brand-700);">$847 saved</div>
+      <div style="font-size:var(--text-xs);color:var(--text-secondary);margin-top:2px;">across 23 test calls · avg $39/mo per win</div>
+    </div>
+
+    <h1 style="font-size:var(--text-xl);font-weight:var(--weight-bold);color:var(--text-display);margin:0 0 var(--s2);">Start negotiating for free</h1>
+    <p style="font-size:var(--text-sm);color:var(--text-secondary);margin:0 0 var(--s6);">No payment needed. First negotiation on us.</p>
+
+    <button class="social-btn">
+      <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 009 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 013.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 000 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 00.957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/></svg>
+      Continue with Google
+    </button>
+    <button class="social-btn" onclick="">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor"><path d="M9 .9C4.525.9.9 4.525.9 9S4.525 17.1 9 17.1 17.1 13.475 17.1 9 13.475.9 9 .9zm0 3.15a2.7 2.7 0 110 5.4 2.7 2.7 0 010-5.4zm0 9.45c-2.25 0-4.275-1.125-5.4-2.925.9-1.35 2.7-2.25 5.4-2.25s4.5.9 5.4 2.25C13.275 12.375 11.25 13.5 9 13.5z"/></svg>
+      Continue with email
+    </button>
+
+    <div class="divider"><hr><span>or</span><hr></div>
+
+    <div class="field">
+      <label>Email</label>
+      <input class="input" type="email" placeholder="you@example.com">
+    </div>
+    <div class="field">
+      <label>Password</label>
+      <input class="input" type="password" placeholder="8+ characters">
+    </div>
+
+    <a href="02-add-bill.html" class="btn btn--primary btn--lg" style="width:100%;display:block;text-align:center;box-sizing:border-box;">Create free account →</a>
+
+    <div class="auth-footer">
+      Already have an account? <a href="02-add-bill.html" style="color:var(--brand-700);text-decoration:none;font-weight:var(--weight-medium);">Sign in</a>
+    </div>
+
+    <p style="font-size:var(--text-xs);color:var(--text-tertiary);text-align:center;margin-top:var(--s5);">By signing up you agree to our Terms of Service and Privacy Policy. Your credentials are stored encrypted and never shared.</p>
+  </div>
+</div>
+<nav class="proto-nav">
+  <a href="index.html">Index</a>
+  <span class="proto-nav__sep">·</span>
+  <a class="proto-nav__current" href="00-login.html">0</a>
+  <a href="01-landing.html">1</a>
+  <a href="02-add-bill.html">2</a>
+  <a href="02b-verify.html">2b</a>
+  <a href="03-pre-call.html">3</a>
+  <a href="04-live-call.html">4</a>
+  <a href="04b-async.html">4b</a>
+  <a href="05-results.html">5</a>
+  <a href="05b-no-deal.html">5b</a>
+  <a href="06-dashboard.html">6</a>
+  <a href="07-pricing.html">7</a>
+</nav>
+</body>
+</html>
