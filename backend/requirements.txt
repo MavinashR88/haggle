@@ -1,0 +1,9 @@
+pipecat-ai[twilio,deepgram,cartesia,anthropic]>=0.0.47
+fastapi>=0.111
+uvicorn[standard]>=0.30
+python-dotenv>=1.0
+aiohttp>=3.9
+twilio>=9.0
+anthropic>=0.28
+deepgram-sdk>=3.5
+cartesia>=1.0
