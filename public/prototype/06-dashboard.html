@@ -98,6 +98,22 @@
         <a href="02-add-bill.html" class="btn btn--primary btn--lg">+ Negotiate a bill</a>
       </div>
 
+      <!-- Empty state — shown for new users with no negotiations yet -->
+      <div id="empty-state" style="display:none;text-align:center;padding:var(--s10) var(--s6);background:var(--bg-surface);border:2px dashed var(--border);border-radius:var(--r-xl);margin-bottom:var(--s7);">
+        <div style="font-size:48px;margin-bottom:var(--s4);">💸</div>
+        <h2 class="t-h2" style="margin-bottom:var(--s3);">You haven't negotiated anything yet.</h2>
+        <p class="t-body t-muted" style="max-width:440px;margin:0 auto var(--s6);">Add your highest bill first — most users save $30–$40/mo on internet alone in their first call.</p>
+        <div style="display:flex;justify-content:center;gap:var(--s3);flex-wrap:wrap;">
+          <a href="02-add-bill.html" class="btn btn--primary btn--lg">Negotiate my internet bill →</a>
+          <a href="02-add-bill.html" class="btn btn--secondary btn--lg">Negotiate my phone bill →</a>
+        </div>
+        <div style="margin-top:var(--s6);display:flex;justify-content:center;gap:var(--s6);">
+          <div style="text-align:center;"><div style="font-size:var(--text-xl);font-weight:var(--weight-bold);color:var(--brand-700);">$39</div><div style="font-size:var(--text-xs);color:var(--text-secondary);">avg first-call saving</div></div>
+          <div style="text-align:center;"><div style="font-size:var(--text-xl);font-weight:var(--weight-bold);color:var(--brand-700);">11 min</div><div style="font-size:var(--text-xs);color:var(--text-secondary);">avg call length</div></div>
+          <div style="text-align:center;"><div style="font-size:var(--text-xl);font-weight:var(--weight-bold);color:var(--brand-700);">87%</div><div style="font-size:var(--text-xs);color:var(--text-secondary);">win rate</div></div>
+        </div>
+      </div>
+
       <div class="stats-row">
         <div class="stat-card">
           <div class="stat-card__val green">$847</div>
