@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Haggle · Results</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="components.css">
+<style>
+  .surface { max-width: 640px; margin: 0 auto; padding: var(--s8) var(--s6) var(--s10); }
+  .win-banner {
+    background: var(--brand-700);
+    border-radius: var(--r-xl);
+    padding: var(--s7) var(--s8);
+    text-align: center;
+    margin-bottom: var(--s6);
+  }
+  .win-banner h1 { font-size: var(--text-3xl); font-weight: var(--weight-bold); color: white; margin: var(--s3) 0 var(--s2); }
+  .win-banner p { font-size: var(--text-md); color: rgba(255,255,255,0.8); margin: 0; }
+  .savings-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: var(--s4); margin-bottom: var(--s6); }
+  .savings-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    padding: var(--s5);
+    text-align: center;
+    box-shadow: var(--shadow-xs);
+  }
+  .savings-card__val { font-size: var(--text-2xl); font-weight: var(--weight-bold); color: var(--text-display); }
+  .savings-card__val.green { color: var(--success-700); }
+  .savings-card__lbl { font-size: var(--text-xs); color: var(--text-secondary); margin-top: 4px; }
+  .confirm-box {
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    padding: var(--s5);
+    margin-bottom: var(--s6);
+  }
+  .confirm-row { display: flex; justify-content: space-between; padding: var(--s3) 0; border-bottom: 1px solid var(--border); }
+  .confirm-row:last-child { border-bottom: none; }
+  .confirm-row .val { font-weight: var(--weight-semi); color: var(--text-display); }
+  .timeline { list-style: none; padding: 0; margin: 0; }
+  .timeline-item { display: flex; gap: var(--s4); padding: var(--s4) 0; border-bottom: 1px solid var(--border); }
+  .timeline-item:last-child { border-bottom: none; }
+  .timeline-time { font-size: var(--text-xs); color: var(--text-tertiary); font-family: var(--font-mono); white-space: nowrap; padding-top: 2px; min-width: 50px; }
+  .timeline-event { font-size: var(--text-sm); color: var(--text-primary); line-height: var(--leading-base); }
+  .timeline-event .tag { font-size: var(--text-xs); font-weight: var(--weight-medium); padding: 1px 6px; border-radius: var(--r-full); }
+  .tag--agent { background: var(--brand-50); color: var(--brand-700); }
+  .tag--rep { background: var(--ink-50); color: var(--ink-500); }
+  .tag--system { background: var(--amber-50); color: var(--amber-700); }
+  .cta-row { display: flex; gap: var(--s3); margin-top: var(--s7); }
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="topbar__brand">
+      <div class="topbar__logo">H</div>
+      Haggle
+    </div>
+    <span class="chip chip--success">Call complete</span>
+    <a href="06-dashboard.html" class="btn btn--ghost btn--sm">Dashboard →</a>
+  </header>
+
+  <main style="flex:1;background:var(--bg-canvas);">
+    <div class="surface">
+      <div class="win-banner">
+        <div style="font-size:40px;">🎉</div>
+        <h1>$39 / month saved</h1>
+        <p>Comcast Xfinity · $94 → $55/mo for 12 months · Confirmation #29476-HXN</p>
+      </div>
+
+      <div class="savings-grid">
+        <div class="savings-card">
+          <div class="savings-card__val green">$39</div>
+          <div class="savings-card__lbl">Monthly saving</div>
+        </div>
+        <div class="savings-card">
+          <div class="savings-card__val green">$468</div>
+          <div class="savings-card__lbl">Annual saving</div>
+        </div>
+        <div class="savings-card">
+          <div class="savings-card__val">11:42</div>
+          <div class="savings-card__lbl">Call duration</div>
+        </div>
+      </div>
+
+      <h2 class="t-h3" style="margin-bottom:var(--s4);">Confirmed terms</h2>
+      <div class="confirm-box">
+        <div class="confirm-row">
+          <span class="t-body-sm t-muted">New monthly rate</span>
+          <span class="val">$55 / mo (all-in incl. taxes)</span>
+        </div>
+        <div class="confirm-row">
+          <span class="t-body-sm t-muted">Duration</span>
+          <span class="val">12 months</span>
+        </div>
+        <div class="confirm-row">
+          <span class="t-body-sm t-muted">Contract extension</span>
+          <span class="val" style="color:var(--success-700);">None ✓</span>
+        </div>
+        <div class="confirm-row">
+          <span class="t-body-sm t-muted">Upsells added</span>
+          <span class="val" style="color:var(--success-700);">None — refused ✓</span>
+        </div>
+        <div class="confirm-row">
+          <span class="t-body-sm t-muted">Effective date</span>
+          <span class="val">Next billing cycle</span>
+        </div>
+        <div class="confirm-row">
+          <span class="t-body-sm t-muted">Confirmation number</span>
+          <span class="val" style="font-family:var(--font-mono);">29476-HXN</span>
+        </div>
+        <div class="confirm-row">
+          <span class="t-body-sm t-muted">Next bill amount</span>
+          <span class="val">~$55</span>
+        </div>
+      </div>
+
+      <h2 class="t-h3" style="margin-bottom:var(--s4);">Call timeline</h2>
+      <ul class="timeline">
+        <li class="timeline-item">
+          <div class="timeline-time">0:00</div>
+          <div class="timeline-event"><span class="tag tag--system">SYSTEM</span> Call connected. Comcast Retention line.</div>
+        </li>
+        <li class="timeline-item">
+          <div class="timeline-time">0:08</div>
+          <div class="timeline-event"><span class="tag tag--agent">AGENT</span> Opened with AI disclosure. Rep confirmed consent.</div>
+        </li>
+        <li class="timeline-item">
+          <div class="timeline-time">0:45</div>
+          <div class="timeline-event"><span class="tag tag--agent">AGENT</span> Deployed competitor leverage: T-Mobile $50/mo. Rep offered $10 credit.</div>
+        </li>
+        <li class="timeline-item">
+          <div class="timeline-time">1:12</div>
+          <div class="timeline-event"><span class="tag tag--agent">AGENT</span> Rejected $10 offer. Deployed tenure leverage. Requested retention/loyalty team.</div>
+        </li>
+        <li class="timeline-item">
+          <div class="timeline-time">1:38</div>
+          <div class="timeline-event"><span class="tag tag--system">HOLD</span> Hold music detected. VAD in listen mode. 1m 52s elapsed.</div>
+        </li>
+        <li class="timeline-item">
+          <div class="timeline-time">3:30</div>
+          <div class="timeline-event"><span class="tag tag--rep">REP</span> Retention specialist: offered $60/mo for 6 months.</div>
+        </li>
+        <li class="timeline-item">
+          <div class="timeline-time">3:45</div>
+          <div class="timeline-event"><span class="tag tag--agent">AGENT</span> Countered: "I need a 12-month rate, not 6 months." Used 3s silence tactic.</div>
+        </li>
+        <li class="timeline-item">
+          <div class="timeline-time">3:52</div>
+          <div class="timeline-event"><span class="tag tag--rep">REP</span> Checked with supervisor. 4-minute hold.</div>
+        </li>
+        <li class="timeline-item">
+          <div class="timeline-time">7:58</div>
+          <div class="timeline-event"><span class="tag tag--rep">REP</span> Offered $55/mo for 12 months. No contract extension.</div>
+        </li>
+        <li class="timeline-item">
+          <div class="timeline-time">8:05</div>
+          <div class="timeline-event"><span class="tag tag--agent">AGENT</span> Accepted. Read back full terms. Got confirmation number 29476-HXN.</div>
+        </li>
+        <li class="timeline-item">
+          <div class="timeline-time">11:42</div>
+          <div class="timeline-event"><span class="tag tag--system">SYSTEM</span> Call ended politely. Account flagged: positive interaction, easier next time.</div>
+        </li>
+      </ul>
+
+      <div class="cta-row">
+        <a href="02-add-bill.html" class="btn btn--primary btn--lg">Negotiate another bill →</a>
+        <a href="06-dashboard.html" class="btn btn--secondary btn--lg">View all savings</a>
+      </div>
+    </div>
+  </main>
+</div>
+
+<nav class="proto-nav">
+  <a href="index.html">Index</a>
+  <span class="proto-nav__sep">·</span>
+  <a href="01-landing.html">1</a>
+  <a href="02-add-bill.html">2</a>
+  <a href="03-pre-call.html">3</a>
+  <a href="04-live-call.html">4</a>
+  <a class="proto-nav__current" href="05-results.html">5</a>
+  <a href="06-dashboard.html">6</a>
+</nav>
+</body>
+</html>

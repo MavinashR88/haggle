@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Haggle · Live call in progress</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="components.css">
+<style>
+  .call-layout {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 0;
+    height: calc(100vh - 52px);
+  }
+  /* Left: transcript */
+  .transcript-panel {
+    border-right: 1px solid var(--border);
+    display: flex; flex-direction: column;
+    background: var(--bg-canvas);
+  }
+  .call-header {
+    padding: var(--s4) var(--s5);
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-surface);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .call-status {
+    display: flex; align-items: center; gap: var(--s3);
+  }
+  .call-timer { font-size: var(--text-sm); font-family: var(--font-mono); color: var(--text-secondary); }
+  .call-controls { display: flex; gap: var(--s2); }
+  .transcript-scroll { flex: 1; overflow-y: auto; padding: var(--s5); display: flex; flex-direction: column; gap: var(--s4); }
+  .turn {
+    display: flex; flex-direction: column; gap: 4px;
+    max-width: 85%;
+  }
+  .turn--agent { align-self: flex-start; }
+  .turn--rep { align-self: flex-end; }
+  .turn__speaker {
+    font-size: var(--text-xs); font-weight: var(--weight-semi);
+    text-transform: uppercase; letter-spacing: var(--tracking-wide);
+  }
+  .turn--agent .turn__speaker { color: var(--brand-700); }
+  .turn--rep .turn__speaker { color: var(--ink-400); text-align: right; }
+  .turn__bubble {
+    padding: var(--s3) var(--s4);
+    border-radius: var(--r-lg);
+    font-size: var(--text-sm);
+    line-height: var(--leading-base);
+  }
+  .turn--agent .turn__bubble {
+    background: var(--brand-50);
+    border: 1px solid var(--brand-200);
+    border-radius: var(--r-lg) var(--r-lg) var(--r-lg) 4px;
+    color: var(--brand-900);
+  }
+  .turn--rep .turn__bubble {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg) var(--r-lg) 4px var(--r-lg);
+    text-align: right;
+  }
+  .turn--system { align-self: center; }
+  .turn--system .turn__bubble {
+    background: transparent; border: none;
+    font-size: var(--text-xs); color: var(--text-tertiary);
+    font-style: italic; padding: var(--s1) 0;
+  }
+  .turn__event {
+    margin-top: 2px;
+    font-size: var(--text-xs);
+  }
+  .turn--agent .turn__event { color: var(--brand-600); }
+  /* Typing indicator */
+  .typing { display: flex; align-items: center; gap: 4px; padding: var(--s3) var(--s4); }
+  .typing__dot { width: 7px; height: 7px; border-radius: 50%; background: var(--brand-400); animation: typing 1s infinite; }
+  .typing__dot:nth-child(2) { animation-delay: 0.15s; }
+  .typing__dot:nth-child(3) { animation-delay: 0.3s; }
+  @keyframes typing { 0%,60%,100%{opacity:0.3;transform:scale(0.8);} 30%{opacity:1;transform:scale(1);} }
+  /* Bottom input */
+  .whisper-bar {
+    padding: var(--s3) var(--s5);
+    border-top: 1px solid var(--border);
+    background: var(--bg-surface);
+    display: flex; gap: var(--s3); align-items: center;
+  }
+  .whisper-bar .input { flex: 1; }
+  /* Right: Cekura panel */
+  .cekura-panel {
+    display: flex; flex-direction: column;
+    background: var(--bg-surface);
+    overflow-y: auto;
+  }
+  .cekura-header {
+    padding: var(--s4) var(--s5);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .metric-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); }
+  .metric { background: var(--bg-surface); padding: var(--s4) var(--s5); }
+  .metric__label { font-size: var(--text-xs); text-transform: uppercase; letter-spacing: var(--tracking-wide); color: var(--text-tertiary); font-weight: var(--weight-semi); margin-bottom: 4px; }
+  .metric__value { font-size: var(--text-xl); font-weight: var(--weight-semi); color: var(--text-display); font-variant-numeric: tabular-nums; }
+  .metric__sub { font-size: var(--text-xs); color: var(--text-secondary); margin-top: 2px; }
+  .metric__value.good { color: var(--success-700); }
+  .metric__value.warn { color: var(--amber-700); }
+  .scenario-list { padding: var(--s4) var(--s5); }
+  .scenario { padding: var(--s3) 0; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+  .scenario:last-child { border-bottom: none; }
+  .scenario__name { font-size: var(--text-sm); color: var(--text-primary); }
+  .scenario__status { font-size: var(--text-xs); font-weight: var(--weight-semi); padding: 2px 8px; border-radius: var(--r-full); }
+  .scenario__status.pass { background: var(--success-50); color: var(--success-700); }
+  .scenario__status.live { background: var(--brand-50); color: var(--brand-700); }
+  .scenario__status.pending { background: var(--ink-50); color: var(--ink-500); }
+  /* Waveform in header */
+  .live-indicator { display: flex; align-items: center; gap: var(--s2); }
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="topbar__brand">
+      <div class="topbar__logo">H</div>
+      Haggle
+    </div>
+    <div class="live-indicator">
+      <div class="dot dot--green" style="animation: pulse 1.5s ease-in-out infinite;"></div>
+      <span style="font-size:var(--text-sm);font-weight:var(--weight-medium);color:var(--text-display);">Live call · Comcast Xfinity</span>
+    </div>
+    <div class="row">
+      <span class="call-timer">02:14</span>
+      <a href="05-results.html" class="btn btn--danger btn--sm">End call</a>
+    </div>
+  </header>
+  <style>@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(16,185,129,.4)}50%{box-shadow:0 0 0 6px rgba(16,185,129,0)}}</style>
+
+  <main style="flex:1;display:grid;grid-template-columns:1fr 320px;">
+    <!-- Transcript -->
+    <div class="transcript-panel">
+      <div class="call-header">
+        <div class="call-status">
+          <div class="waveform">
+            <div class="waveform__bar"></div><div class="waveform__bar"></div>
+            <div class="waveform__bar"></div><div class="waveform__bar"></div>
+            <div class="waveform__bar"></div><div class="waveform__bar"></div>
+            <div class="waveform__bar"></div>
+          </div>
+          <span class="t-body-sm t-strong">Agent speaking</span>
+          <span class="chip chip--success">340 ms latency</span>
+        </div>
+        <div class="call-controls">
+          <button class="btn btn--secondary btn--sm">🎧 Listen in</button>
+          <button class="btn btn--secondary btn--sm">🙋 Take over</button>
+        </div>
+      </div>
+
+      <div class="transcript-scroll">
+        <div class="turn turn--system">
+          <div class="turn__bubble">Call connected · 12:04:17 PM · Comcast Retention Line</div>
+        </div>
+
+        <div class="turn turn--agent">
+          <div class="turn__speaker">Haggle Agent</div>
+          <div class="turn__bubble">"Hi, this is an AI voice assistant calling on behalf of the account holder. This call is being recorded for quality purposes. Is it okay to proceed?"</div>
+        </div>
+
+        <div class="turn turn--rep">
+          <div class="turn__speaker">Comcast Rep</div>
+          <div class="turn__bubble">"Sure, go ahead. Can I get your account number or the phone number on the account?"</div>
+        </div>
+
+        <div class="turn turn--agent">
+          <div class="turn__speaker">Haggle Agent</div>
+          <div class="turn__bubble">"The number on the account is 512-555-0182."</div>
+          <div class="turn__event">🔐 Account lookup · vault read (last 4 redacted from screen)</div>
+        </div>
+
+        <div class="turn turn--rep">
+          <div class="turn__speaker">Comcast Rep</div>
+          <div class="turn__bubble">"Thank you. What can I help you with today?"</div>
+        </div>
+
+        <div class="turn turn--agent">
+          <div class="turn__speaker">Haggle Agent</div>
+          <div class="turn__bubble">"Hi — I've been reviewing my account and the cost has gotten too high for my budget. I've been looking at T-Mobile Home Internet which is offering $50 a month for a similar 400 Mbps tier. Before I make any changes, I wanted to see what Xfinity can do to keep me as a customer."</div>
+          <div class="turn__event">📊 Leverage #1 deployed: competitor price</div>
+        </div>
+
+        <div class="turn turn--rep">
+          <div class="turn__speaker">Comcast Rep</div>
+          <div class="turn__bubble">"I understand your concern. Let me look at your account… okay I can see you're on our Performance Internet plan at $94 a month. The best I'm able to do from my end is a $10 courtesy credit."</div>
+        </div>
+
+        <div class="turn turn--system">
+          <div class="turn__bubble">⚠️ First offer: $10 credit. Under threshold. Agent counter-scripted.</div>
+        </div>
+
+        <div class="turn turn--agent">
+          <div class="turn__speaker">Haggle Agent</div>
+          <div class="turn__bubble">"I appreciate that. But I'm looking for something more sustainable — not just a one-time credit. I've been a customer for three years on autopay. Is there a retention or loyalty program that could bring the monthly rate down, rather than a credit?"</div>
+          <div class="turn__event">📊 Leverage #2 deployed: tenure · escalation path triggered</div>
+        </div>
+
+        <div class="turn turn--rep">
+          <div class="turn__speaker">Comcast Rep</div>
+          <div class="turn__bubble">"Let me check with the loyalty team… I'm going to put you on a brief hold, okay?"</div>
+        </div>
+
+        <div class="turn turn--system">
+          <div class="turn__bubble">⏸ Hold music detected · VAD in listen mode · timer: 0:00</div>
+        </div>
+
+        <div class="turn turn--system">
+          <div class="turn__bubble">⏸ Still on hold · 1:32 elapsed · SMS option available</div>
+        </div>
+
+        <!-- Currently typing -->
+        <div class="turn turn--rep">
+          <div class="turn__speaker">Comcast Rep</div>
+          <div class="turn__bubble" style="padding:var(--s3) var(--s4);">
+            <div class="typing">
+              <div class="typing__dot"></div>
+              <div class="typing__dot"></div>
+              <div class="typing__dot"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="whisper-bar">
+        <input class="input" placeholder="Whisper to agent (e.g. 'accept anything under $70')…">
+        <button class="btn btn--secondary btn--sm">Send →</button>
+      </div>
+    </div>
+
+    <!-- Cekura panel -->
+    <div class="cekura-panel">
+      <div class="cekura-header">
+        <div class="row-2">
+          <div class="dot dot--green"></div>
+          <span class="t-body-sm t-strong">Cekura QA</span>
+        </div>
+        <span class="chip chip--success">Session #4419</span>
+      </div>
+
+      <div class="metric-grid">
+        <div class="metric">
+          <div class="metric__label">Latency (p50)</div>
+          <div class="metric__value good">340ms</div>
+          <div class="metric__sub">Target &lt;1000ms</div>
+        </div>
+        <div class="metric">
+          <div class="metric__label">Turn count</div>
+          <div class="metric__value">8</div>
+          <div class="metric__sub">4 agent · 4 rep</div>
+        </div>
+        <div class="metric">
+          <div class="metric__label">Interruptions</div>
+          <div class="metric__value good">0</div>
+          <div class="metric__sub">Clean yields</div>
+        </div>
+        <div class="metric">
+          <div class="metric__label">Hold recovered</div>
+          <div class="metric__value good">1/1</div>
+          <div class="metric__sub">VAD clean</div>
+        </div>
+        <div class="metric">
+          <div class="metric__label">Leverage used</div>
+          <div class="metric__value">2 / 3</div>
+          <div class="metric__sub">Competitor + tenure</div>
+        </div>
+        <div class="metric">
+          <div class="metric__label">Goal progress</div>
+          <div class="metric__value warn">50%</div>
+          <div class="metric__sub">Retention pending</div>
+        </div>
+      </div>
+
+      <div class="scenario-list">
+        <p class="t-label" style="margin-bottom:var(--s3);">Live scenario checks</p>
+        <div class="scenario">
+          <span class="scenario__name">Opening disclosure</span>
+          <span class="scenario__status pass">PASS</span>
+        </div>
+        <div class="scenario">
+          <span class="scenario__name">Identity verification</span>
+          <span class="scenario__status pass">PASS</span>
+        </div>
+        <div class="scenario">
+          <span class="scenario__name">First offer rejection</span>
+          <span class="scenario__status pass">PASS</span>
+        </div>
+        <div class="scenario">
+          <span class="scenario__name">Hold music recovery</span>
+          <span class="scenario__status pass">PASS</span>
+        </div>
+        <div class="scenario">
+          <span class="scenario__name">Retention escalation</span>
+          <span class="scenario__status live">LIVE</span>
+        </div>
+        <div class="scenario">
+          <span class="scenario__name">Offer evaluation</span>
+          <span class="scenario__status pending">PENDING</span>
+        </div>
+        <div class="scenario">
+          <span class="scenario__name">Confirmation capture</span>
+          <span class="scenario__status pending">PENDING</span>
+        </div>
+      </div>
+
+      <div style="padding:var(--s4) var(--s5);border-top:1px solid var(--border);margin-top:auto;">
+        <p class="t-label" style="margin-bottom:var(--s3);">Current offer on table</p>
+        <div style="font-size:var(--text-2xl);font-weight:var(--weight-bold);color:var(--text-display);">$10 <span style="font-size:var(--text-sm);font-weight:var(--weight-regular);color:var(--text-secondary);">credit (rejected)</span></div>
+        <div style="margin-top:var(--s2);font-size:var(--text-xs);color:var(--text-secondary);">Target: $65/mo · Walk-away: $80/mo</div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<nav class="proto-nav">
+  <a href="index.html">Index</a>
+  <span class="proto-nav__sep">·</span>
+  <a href="01-landing.html">1</a>
+  <a href="02-add-bill.html">2</a>
+  <a href="03-pre-call.html">3</a>
+  <a class="proto-nav__current" href="04-live-call.html">4</a>
+  <a href="05-results.html">5</a>
+  <a href="06-dashboard.html">6</a>
+</nav>
+</body>
+</html>

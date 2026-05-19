@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Haggle · Pre-call brief</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="components.css">
+<style>
+  .surface { max-width: 760px; margin: 0 auto; padding: var(--s8) var(--s6) var(--s10); }
+  .brief-grid { display: grid; grid-template-columns: 1fr 300px; gap: var(--s6); align-items: start; margin-top: var(--s7); }
+  .leverage-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--s3); }
+  .leverage-item {
+    display: flex; align-items: flex-start; gap: var(--s3);
+    padding: var(--s4);
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    box-shadow: var(--shadow-xs);
+  }
+  .leverage-item__rank {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--brand-700); color: white;
+    font-size: 11px; font-weight: var(--weight-bold);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 1px;
+  }
+  .leverage-item__rank.weak { background: var(--ink-400); }
+  .leverage-item h4 { font-size: var(--text-sm); font-weight: var(--weight-semi); color: var(--text-display); margin: 0 0 2px; }
+  .leverage-item p { font-size: var(--text-xs); color: var(--text-secondary); margin: 0; line-height: var(--leading-base); }
+  .script-preview {
+    background: var(--ink-900);
+    border-radius: var(--r-lg);
+    padding: var(--s5);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: #a8b3cf;
+    line-height: 1.7;
+  }
+  .script-preview .line-agent { color: #7dd3a8; }
+  .script-preview .line-rep { color: #93c5fd; }
+  .script-preview .line-meta { color: #6b7280; font-style: italic; }
+  .sidebar-card { padding: var(--s5); }
+  .target-row { display: flex; justify-content: space-between; padding: var(--s3) 0; border-bottom: 1px solid var(--border); }
+  .target-row:last-child { border-bottom: none; }
+  .form-footer { display: flex; justify-content: space-between; align-items: center; margin-top: var(--s7); }
+  .escalation {
+    margin-top: var(--s5);
+    padding: var(--s4);
+    background: var(--amber-50);
+    border: 1px solid #FDE68A;
+    border-radius: var(--r-md);
+    font-size: var(--text-sm);
+    color: var(--amber-700);
+    line-height: var(--leading-base);
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="topbar__brand">
+      <div class="topbar__logo">H</div>
+      Haggle
+    </div>
+    <div class="row">
+      <div class="progress" style="width:160px;"><div class="progress__fill" style="width:66%;"></div></div>
+      <span class="t-caption">Step 2 of 3</span>
+    </div>
+    <button class="btn btn--ghost btn--sm">Cancel</button>
+  </header>
+
+  <main style="flex:1;background:var(--bg-canvas);">
+    <div class="surface">
+      <div class="stack stack-2">
+        <p class="t-label">Pre-call brief · Comcast Xfinity</p>
+        <h1 class="t-h1">Here's how the agent will negotiate.</h1>
+        <p class="t-body t-muted">Review the strategy before we dial. You can barge in or end the call at any time.</p>
+      </div>
+
+      <div class="brief-grid">
+        <div>
+          <h2 class="t-h3" style="margin-bottom:var(--s4);">Leverage points (ranked)</h2>
+          <ul class="leverage-list">
+            <li class="leverage-item">
+              <div class="leverage-item__rank">1</div>
+              <div>
+                <h4>Competitor pricing</h4>
+                <p>"T-Mobile Home Internet is offering $50/mo for the same 400 Mbps tier you're paying $94 for." Agent cites exact price.</p>
+              </div>
+            </li>
+            <li class="leverage-item">
+              <div class="leverage-item__rank">2</div>
+              <div>
+                <h4>3-year tenure</h4>
+                <p>"I have been a customer for 3 years on autopay." Loyalty headroom ~$10/mo additional discount.</p>
+              </div>
+            </li>
+            <li class="leverage-item">
+              <div class="leverage-item__rank">3</div>
+              <div>
+                <h4>No-bundle status</h4>
+                <p>Internet-only account. Agent will threaten to add a competitor phone plan and drop Xfinity entirely.</p>
+              </div>
+            </li>
+            <li class="leverage-item">
+              <div class="leverage-item__rank weak">—</div>
+              <div>
+                <h4>No recent rate hike on file</h4>
+                <p>This leverage point is unavailable — your bill history doesn't show a rate increase. Agent will skip this.</p>
+              </div>
+            </li>
+          </ul>
+
+          <h2 class="t-h3" style="margin:var(--s6) 0 var(--s4);">Opening script</h2>
+          <div class="script-preview">
+<span class="line-meta">[Agent opens. Legal disclosure first.]</span><br>
+<span class="line-agent">AGENT: "Hi, this is an AI voice assistant calling on behalf of the account holder. This call is being recorded for quality purposes. Is it okay to proceed?"</span><br>
+<br>
+<span class="line-rep">REP: "Sure, go ahead."</span><br>
+<br>
+<span class="line-agent">AGENT: "Hi — I've been reviewing my account and the cost has gotten a bit high for my budget. I've been looking at T-Mobile Home Internet which is offering $50 a month for a similar 400 Mbps tier. Before I make any changes, I wanted to see what Xfinity can do to keep me as a customer."</span><br>
+<br>
+<span class="line-meta">[Wait for response. Never accept first offer.]</span>
+          </div>
+
+          <div class="escalation">
+            <strong>Escalation ladder:</strong> Frontline rep says no twice → ask for Loyalty/Retention → offer under 15% → ask for supervisor → under $10 off → mention FCC informal complaint.
+          </div>
+        </div>
+
+        <div class="stack stack-4">
+          <div class="card">
+            <div class="sidebar-card">
+              <p class="t-label" style="margin-bottom:var(--s4);">Negotiation targets</p>
+              <div class="target-row">
+                <span class="t-body-sm t-muted">Current bill</span>
+                <span class="t-body-sm t-strong">$94 / mo</span>
+              </div>
+              <div class="target-row">
+                <span class="t-body-sm t-muted">Target</span>
+                <span class="t-body-sm t-strong t-brand">$65 / mo</span>
+              </div>
+              <div class="target-row">
+                <span class="t-body-sm t-muted">Walk-away</span>
+                <span class="t-body-sm t-strong">$80 / mo</span>
+              </div>
+              <div class="target-row">
+                <span class="t-body-sm t-muted">Annual saving (target)</span>
+                <span class="t-body-sm t-strong t-brand">$348</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card card--brand">
+            <div class="sidebar-card">
+              <p class="t-label t-brand" style="margin-bottom:var(--s3);">Comcast playbook</p>
+              <p class="t-body-sm" style="color:var(--brand-800);margin:0;">Frontline reps cap at ~$10 credit. Real discounts live in the <strong>Customer Solutions / Loyalty queue</strong>. If rep says they can't help, magic phrase: <em>"I'd like to speak to the retention department."</em></p>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="sidebar-card">
+              <p class="t-label" style="margin-bottom:var(--s3);">Barge-in options</p>
+              <p class="t-body-sm t-muted" style="margin:0 0 var(--s3);">During the call you can:</p>
+              <div class="stack stack-2">
+                <div class="chip chip--neutral" style="justify-content:center;">🎧 Listen live</div>
+                <div class="chip chip--neutral" style="justify-content:center;">💬 Whisper instruction</div>
+                <div class="chip chip--neutral" style="justify-content:center;">🙋 Take over the call</div>
+                <div class="chip chip--red" style="justify-content:center;">🔴 End call</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-footer">
+        <a href="02-add-bill.html" class="btn btn--ghost">← Back</a>
+        <a href="04-live-call.html" class="btn btn--primary btn--lg">📞 Start the call →</a>
+      </div>
+    </div>
+  </main>
+</div>
+
+<nav class="proto-nav">
+  <a href="index.html">Index</a>
+  <span class="proto-nav__sep">·</span>
+  <a href="01-landing.html">1</a>
+  <a href="02-add-bill.html">2</a>
+  <a class="proto-nav__current" href="03-pre-call.html">3</a>
+  <a href="04-live-call.html">4</a>
+  <a href="05-results.html">5</a>
+  <a href="06-dashboard.html">6</a>
+</nav>
+</body>
+</html>

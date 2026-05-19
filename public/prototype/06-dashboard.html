@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Haggle · Dashboard</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="components.css">
+<style>
+  .main-content { max-width: 900px; margin: 0 auto; padding: var(--s8) var(--s6); }
+  .stats-row { display: grid; grid-template-columns: repeat(4,1fr); gap: var(--s4); margin-bottom: var(--s7); }
+  .stat-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    padding: var(--s5);
+    box-shadow: var(--shadow-xs);
+  }
+  .stat-card__val { font-size: var(--text-2xl); font-weight: var(--weight-bold); color: var(--text-display); }
+  .stat-card__val.green { color: var(--success-700); }
+  .stat-card__lbl { font-size: var(--text-xs); color: var(--text-secondary); margin-top: 4px; }
+  .negotiations-table {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-xs);
+  }
+  .table-header {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr 80px;
+    padding: var(--s3) var(--s5);
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-raised);
+    font-size: var(--text-xs); font-weight: var(--weight-semi);
+    text-transform: uppercase; letter-spacing: var(--tracking-wide);
+    color: var(--text-tertiary);
+  }
+  .table-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr 80px;
+    padding: var(--s4) var(--s5);
+    border-bottom: 1px solid var(--border);
+    align-items: center;
+    transition: background var(--t-fast);
+  }
+  .table-row:last-child { border-bottom: none; }
+  .table-row:hover { background: var(--bg-raised); }
+  .provider-cell { display: flex; align-items: center; gap: var(--s3); }
+  .provider-icon {
+    width: 32px; height: 32px;
+    background: var(--ink-50);
+    border-radius: var(--r-sm);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: var(--weight-bold);
+    color: var(--text-secondary);
+    flex-shrink: 0;
+  }
+  .provider-name { font-size: var(--text-sm); font-weight: var(--weight-medium); color: var(--text-display); }
+  .provider-date { font-size: var(--text-xs); color: var(--text-tertiary); }
+  .savings-val { font-size: var(--text-sm); font-weight: var(--weight-semi); color: var(--success-700); }
+  .cell { font-size: var(--text-sm); color: var(--text-primary); }
+  .cell-secondary { font-size: var(--text-sm); color: var(--text-secondary); }
+  .learning-bar { margin-top: var(--s7); }
+  .iter-row { display: flex; align-items: center; gap: var(--s4); padding: var(--s3) 0; border-bottom: 1px solid var(--border); }
+  .iter-row:last-child { border-bottom: none; }
+  .iter-label { width: 72px; font-size: var(--text-xs); font-weight: var(--weight-semi); color: var(--text-secondary); font-family: var(--font-mono); }
+  .iter-fill { height: 10px; border-radius: var(--r-full); background: var(--brand-700); }
+  .iter-pct { width: 40px; text-align: right; font-size: var(--text-xs); font-weight: var(--weight-semi); color: var(--text-display); font-family: var(--font-mono); }
+  .iter-note { font-size: var(--text-xs); color: var(--text-secondary); flex: 1; }
+  .two-col { display: grid; grid-template-columns: 1fr 280px; gap: var(--s5); }
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="topbar__brand">
+      <div class="topbar__logo">H</div>
+      Haggle
+    </div>
+    <nav class="row">
+      <a href="#" style="font-size:var(--text-sm);color:var(--brand-700);font-weight:var(--weight-medium);text-decoration:none;">Dashboard</a>
+      <a href="#" style="font-size:var(--text-sm);color:var(--text-secondary);text-decoration:none;">Settings</a>
+    </nav>
+    <div class="topbar__user">
+      <span>$847 saved</span>
+      <div class="avatar">AM</div>
+    </div>
+  </header>
+
+  <main style="flex:1;background:var(--bg-canvas);">
+    <div class="main-content">
+      <div class="row" style="justify-content:space-between;margin-bottom:var(--s6);">
+        <div>
+          <h1 class="t-h1" style="margin-bottom:4px;">Your savings</h1>
+          <p class="t-body t-muted" style="margin:0;">23 negotiations · all-time</p>
+        </div>
+        <a href="02-add-bill.html" class="btn btn--primary btn--lg">+ Negotiate a bill</a>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-card__val green">$847</div>
+          <div class="stat-card__lbl">Total saved (all-time)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card__val green">$71</div>
+          <div class="stat-card__lbl">Average monthly saving</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card__val">87%</div>
+          <div class="stat-card__lbl">Win rate</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card__val">11 min</div>
+          <div class="stat-card__lbl">Avg call length</div>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div>
+          <h2 class="t-h3" style="margin-bottom:var(--s4);">Recent negotiations</h2>
+          <div class="negotiations-table">
+            <div class="table-header">
+              <span>Provider</span>
+              <span>Was</span>
+              <span>Now</span>
+              <span>Saved / mo</span>
+              <span>Status</span>
+              <span></span>
+            </div>
+
+            <div class="table-row">
+              <div class="provider-cell">
+                <div class="provider-icon">C</div>
+                <div>
+                  <div class="provider-name">Comcast Xfinity</div>
+                  <div class="provider-date">May 19 · 11:42 min</div>
+                </div>
+              </div>
+              <div class="cell-secondary">$94</div>
+              <div class="cell">$55</div>
+              <div class="savings-val">$39</div>
+              <div><span class="chip chip--success">Won</span></div>
+              <div><button class="btn btn--ghost btn--sm">Re-call</button></div>
+            </div>
+
+            <div class="table-row">
+              <div class="provider-cell">
+                <div class="provider-icon">A</div>
+                <div>
+                  <div class="provider-name">AT&amp;T Wireless</div>
+                  <div class="provider-date">May 12 · 14:05 min</div>
+                </div>
+              </div>
+              <div class="cell-secondary">$185</div>
+              <div class="cell">$150</div>
+              <div class="savings-val">$35</div>
+              <div><span class="chip chip--success">Won</span></div>
+              <div><button class="btn btn--ghost btn--sm">Re-call</button></div>
+            </div>
+
+            <div class="table-row">
+              <div class="provider-cell">
+                <div class="provider-icon">G</div>
+                <div>
+                  <div class="provider-name">Planet Fitness</div>
+                  <div class="provider-date">May 8 · 6:12 min</div>
+                </div>
+              </div>
+              <div class="cell-secondary">$25</div>
+              <div class="cell">$25</div>
+              <div class="cell-secondary" style="color:var(--ink-400);">$0</div>
+              <div><span class="chip chip--neutral">No deal</span></div>
+              <div><button class="btn btn--ghost btn--sm">Re-call</button></div>
+            </div>
+
+            <div class="table-row">
+              <div class="provider-cell">
+                <div class="provider-icon">S</div>
+                <div>
+                  <div class="provider-name">SiriusXM</div>
+                  <div class="provider-date">Apr 30 · 8:44 min</div>
+                </div>
+              </div>
+              <div class="cell-secondary">$22</div>
+              <div class="cell">$5</div>
+              <div class="savings-val">$17</div>
+              <div><span class="chip chip--success">Won</span></div>
+              <div><button class="btn btn--ghost btn--sm">Re-call</button></div>
+            </div>
+
+            <div class="table-row">
+              <div class="provider-cell">
+                <div class="provider-icon">V</div>
+                <div>
+                  <div class="provider-name">Verizon FiOS</div>
+                  <div class="provider-date">Apr 22 · 22:18 min</div>
+                </div>
+              </div>
+              <div class="cell-secondary">$120</div>
+              <div class="cell">$100</div>
+              <div class="savings-val">$20</div>
+              <div><span class="chip chip--success">Won</span></div>
+              <div><button class="btn btn--ghost btn--sm">Re-call</button></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Self-learning panel -->
+        <div>
+          <h2 class="t-h3" style="margin-bottom:var(--s4);">Agent improvement</h2>
+          <div class="card" style="padding:var(--s5);">
+            <p class="t-label" style="margin-bottom:var(--s3);">Pass rate · Cekura 100-scenario suite</p>
+            <div class="learning-bar">
+              <div class="iter-row">
+                <div class="iter-label">Iter 1</div>
+                <div style="flex:1;background:var(--ink-100);border-radius:var(--r-full);height:10px;overflow:hidden;">
+                  <div class="iter-fill" style="width:62%;"></div>
+                </div>
+                <div class="iter-pct">62%</div>
+              </div>
+              <div class="iter-row">
+                <div class="iter-label">Iter 2</div>
+                <div style="flex:1;background:var(--ink-100);border-radius:var(--r-full);height:10px;overflow:hidden;">
+                  <div class="iter-fill" style="width:74%;"></div>
+                </div>
+                <div class="iter-pct">74%</div>
+              </div>
+              <div class="iter-row">
+                <div class="iter-label">Iter 3</div>
+                <div style="flex:1;background:var(--ink-100);border-radius:var(--r-full);height:10px;overflow:hidden;">
+                  <div class="iter-fill" style="width:81%;"></div>
+                </div>
+                <div class="iter-pct">81%</div>
+              </div>
+              <div class="iter-row">
+                <div class="iter-label">Iter 4</div>
+                <div style="flex:1;background:var(--ink-100);border-radius:var(--r-full);height:10px;overflow:hidden;">
+                  <div class="iter-fill" style="width:87%;"></div>
+                </div>
+                <div class="iter-pct">87%</div>
+              </div>
+              <div class="iter-row" style="border-bottom:none;">
+                <div class="iter-label">Iter 5</div>
+                <div style="flex:1;background:var(--ink-100);border-radius:var(--r-full);height:10px;overflow:hidden;">
+                  <div class="iter-fill" style="width:94%;background:var(--success-500);"></div>
+                </div>
+                <div class="iter-pct" style="color:var(--success-700);">94%</div>
+              </div>
+            </div>
+            <p class="t-caption" style="margin-top:var(--s4);border-top:1px solid var(--border);padding-top:var(--s3);">
+              Each iteration: Cekura runs 100 adversarial personas → agent clusters failures → Claude proposes a patch → pass rate verified before keeping.
+            </p>
+          </div>
+
+          <div class="card" style="padding:var(--s5);margin-top:var(--s4);">
+            <p class="t-label" style="margin-bottom:var(--s4);">Providers you haven't tried yet</p>
+            <div class="stack stack-2">
+              <div class="row" style="justify-content:space-between;">
+                <span class="t-body-sm">Spectrum / Charter</span>
+                <a href="02-add-bill.html" class="btn btn--ghost btn--sm">Negotiate →</a>
+              </div>
+              <div class="row" style="justify-content:space-between;">
+                <span class="t-body-sm">ADT Home Security</span>
+                <a href="02-add-bill.html" class="btn btn--ghost btn--sm">Negotiate →</a>
+              </div>
+              <div class="row" style="justify-content:space-between;">
+                <span class="t-body-sm">DirecTV</span>
+                <a href="02-add-bill.html" class="btn btn--ghost btn--sm">Negotiate →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<nav class="proto-nav">
+  <a href="index.html">Index</a>
+  <span class="proto-nav__sep">·</span>
+  <a href="01-landing.html">1</a>
+  <a href="02-add-bill.html">2</a>
+  <a href="03-pre-call.html">3</a>
+  <a href="04-live-call.html">4</a>
+  <a href="05-results.html">5</a>
+  <a class="proto-nav__current" href="06-dashboard.html">6</a>
+</nav>
+</body>
+</html>
