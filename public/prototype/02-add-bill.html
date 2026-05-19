@@ -61,29 +61,47 @@
   <main style="flex:1;background:var(--bg-canvas);">
     <div class="surface">
       <div class="stack stack-2" style="margin-bottom:var(--s7);">
-        <p class="t-label">Add a bill</p>
-        <h1 class="t-h1">Which bill are we negotiating?</h1>
-        <p class="t-body t-muted">Pick a provider and tell us what you're paying. We'll handle the rest.</p>
+        <p class="t-label">New negotiation</p>
+        <h1 class="t-h1">What are we negotiating?</h1>
+        <p class="t-body t-muted">Bills, subscriptions, or financial accounts — we call and negotiate on your behalf.</p>
       </div>
 
       <div class="field">
-        <label>Provider</label>
-        <div class="provider-grid">
-          <button class="provider-btn active">Comcast / Xfinity</button>
-          <button class="provider-btn">AT&amp;T</button>
-          <button class="provider-btn">Verizon</button>
-          <button class="provider-btn">Spectrum</button>
-          <button class="provider-btn">T-Mobile</button>
-          <button class="provider-btn">Planet Fitness</button>
-          <button class="provider-btn">LA Fitness</button>
-          <button class="provider-btn">ADT</button>
-          <button class="provider-btn">Other…</button>
+        <label>Category</label>
+        <div style="display:flex;gap:var(--s2);margin-bottom:var(--s3);" id="category-tabs">
+          <button class="btn btn--secondary btn--sm" id="tab-bills" style="border-color:var(--brand-700);color:var(--brand-700);background:var(--brand-50);" onclick="showCategory('bills')">Bills &amp; subscriptions</button>
+          <button class="btn btn--secondary btn--sm" id="tab-financial" onclick="showCategory('financial')">Financial accounts</button>
+        </div>
+        <div id="grid-bills">
+          <div class="provider-grid">
+            <button class="provider-btn active">Comcast / Xfinity</button>
+            <button class="provider-btn">AT&amp;T</button>
+            <button class="provider-btn">Verizon</button>
+            <button class="provider-btn">Spectrum</button>
+            <button class="provider-btn">T-Mobile</button>
+            <button class="provider-btn">Planet Fitness</button>
+            <button class="provider-btn">LA Fitness</button>
+            <button class="provider-btn">ADT</button>
+            <button class="provider-btn">Other…</button>
+          </div>
+        </div>
+        <div id="grid-financial" style="display:none;">
+          <div class="provider-grid">
+            <button class="provider-btn active">Chase</button>
+            <button class="provider-btn">Citi</button>
+            <button class="provider-btn">Bank of America</button>
+            <button class="provider-btn">Wells Fargo</button>
+            <button class="provider-btn">Capital One</button>
+            <button class="provider-btn">Discover</button>
+            <button class="provider-btn">Amex</button>
+            <button class="provider-btn">Other bank…</button>
+          </div>
         </div>
       </div>
 
       <div class="col2">
-        <div class="field">
-          <label>Monthly bill (all-in with taxes)</label>
+        <div class="field" id="field-bill">
+          <label>Monthly bill / current rate</label>
           <div class="row-2" style="display:flex;align-items:center;">
             <span style="position:absolute;padding-left:12px;color:var(--text-secondary);pointer-events:none;">$</span>
             <input class="input" type="number" value="94" style="padding-left:24px;">
@@ -96,14 +114,14 @@
         </div>
       </div>
 
-      <div class="field">
-        <label>Service type</label>
-        <input class="input" value="Internet (400 Mbps, no TV bundle)">
+      <div class="field" id="field-service">
+        <label>Service / account type</label>
+        <input class="input" value="Internet (400 Mbps, no TV bundle)" id="service-input">
       </div>
 
       <div class="field">
         <label>What's your goal?</label>
-        <div class="goal-options">
+        <div class="goal-options" id="goal-options">
           <div class="goal-option active">
             <div class="goal-option__icon">💰</div>
             <div class="goal-option__text">
@@ -125,14 +143,55 @@
               <p>Agent will navigate the cancellation flow and capture any retention offer first.</p>
             </div>
           </div>
+          <div class="goal-option" id="goal-credit-limit" style="display:none;">
+            <div class="goal-option__icon">📈</div>
+            <div class="goal-option__text">
+              <h4>Increase my credit limit</h4>
+              <p>Agent calls the card issuer, cites your payment history and income, and requests a limit increase.</p>
+            </div>
+          </div>
+          <div class="goal-option" id="goal-apr" style="display:none;">
+            <div class="goal-option__icon">📉</div>
+            <div class="goal-option__text">
+              <h4>Reduce my APR</h4>
+              <p>Agent negotiates a lower interest rate using your on-time payment record as leverage.</p>
+            </div>
+          </div>
+          <div class="goal-option" id="goal-fee" style="display:none;">
+            <div class="goal-option__icon">🚫</div>
+            <div class="goal-option__text">
+              <h4>Waive a fee</h4>
+              <p>Late fee, annual fee, or overdraft charge — agent requests a one-time waiver.</p>
+            </div>
+          </div>
         </div>
       </div>
 
       <div class="field">
-        <label>Minimum acceptable discount (optional)</label>
-        <input class="input" placeholder="e.g. 15% or $15/month" value="">
+        <label>Minimum acceptable outcome (optional)</label>
+        <input class="input" placeholder="e.g. 15% off, $5K limit increase, APR under 18%" value="">
         <div class="hint">If the rep can't beat this, the agent escalates to a supervisor automatically.</div>
       </div>
+
+      <script>
+        function showCategory(cat) {
+          var isBills = cat === 'bills';
+          document.getElementById('grid-bills').style.display = isBills ? '' : 'none';
+          document.getElementById('grid-financial').style.display = isBills ? 'none' : '';
+          document.getElementById('tab-bills').style.cssText = isBills ? 'border-color:var(--brand-700);color:var(--brand-700);background:var(--brand-50);' : '';
+          document.getElementById('tab-financial').style.cssText = !isBills ? 'border-color:var(--brand-700);color:var(--brand-700);background:var(--brand-50);' : '';
+          document.getElementById('goal-credit-limit').style.display = isBills ? 'none' : '';
+          document.getElementById('goal-apr').style.display = isBills ? 'none' : '';
+          document.getElementById('goal-fee').style.display = isBills ? 'none' : '';
+          if (!isBills) {
+            document.getElementById('service-input').value = 'Credit card (Sapphire Preferred)';
+            document.querySelectorAll('.goal-option').forEach(function(el,i){ el.classList.remove('active'); });
+            document.getElementById('goal-credit-limit').classList.add('active');
+          } else {
+            document.getElementById('service-input').value = 'Internet (400 Mbps, no TV bundle)';
+          }
+        }
+      </script>
 
       <div class="form-footer">
         <a href="01-landing.html" class="btn btn--ghost">← Back</a>
