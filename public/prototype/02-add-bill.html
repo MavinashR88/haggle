@@ -68,9 +68,10 @@
 
       <div class="field">
         <label>Category</label>
-        <div style="display:flex;gap:var(--s2);margin-bottom:var(--s3);" id="category-tabs">
+        <div style="display:flex;gap:var(--s2);margin-bottom:var(--s3);flex-wrap:wrap;" id="category-tabs">
           <button class="btn btn--secondary btn--sm" id="tab-bills" style="border-color:var(--brand-700);color:var(--brand-700);background:var(--brand-50);" onclick="showCategory('bills')">Bills &amp; subscriptions</button>
           <button class="btn btn--secondary btn--sm" id="tab-financial" onclick="showCategory('financial')">Financial accounts</button>
+          <button class="btn btn--secondary btn--sm" id="tab-new" onclick="showCategory('new')">✨ Opening a new account</button>
         </div>
         <div id="grid-bills">
           <div class="provider-grid">
@@ -97,9 +98,25 @@
             <button class="provider-btn">Other bank…</button>
           </div>
         </div>
+        <div id="grid-new" style="display:none;">
+          <div style="background:var(--brand-50);border:1px solid var(--brand-200);border-radius:var(--r-md);padding:var(--s4);margin-bottom:var(--s3);font-size:var(--text-sm);color:var(--brand-800);">
+            <strong>How it works for new accounts:</strong> Tell us who you want to sign up with and what deal you want. Haggle calls their sales team and negotiates the best intro rate, waived fees, or sign-up bonus before you commit — so you never accept the first offer they give you.
+          </div>
+          <div class="provider-grid">
+            <button class="provider-btn active">Comcast / Xfinity</button>
+            <button class="provider-btn">AT&amp;T</button>
+            <button class="provider-btn">Verizon</button>
+            <button class="provider-btn">Spectrum</button>
+            <button class="provider-btn">Chase</button>
+            <button class="provider-btn">Capital One</button>
+            <button class="provider-btn">Citi</button>
+            <button class="provider-btn">Planet Fitness</button>
+            <button class="provider-btn">Other…</button>
+          </div>
+        </div>
       </div>
 
-      <div class="col2">
+      <div class="col2" id="existing-fields">
         <div class="field" id="field-bill">
           <label>Monthly bill / current rate</label>
           <div class="row-2" style="display:flex;align-items:center;">
@@ -111,6 +128,27 @@
           <label>Years as a customer</label>
           <input class="input" type="number" value="3" min="0" step="0.5">
           <div class="hint">Longer tenure = more leverage</div>
+        </div>
+      </div>
+
+      <div id="new-account-fields" style="display:none;">
+        <div class="col2">
+          <div class="field">
+            <label>Advertised / listed price</label>
+            <div style="display:flex;align-items:center;">
+              <span style="position:absolute;padding-left:12px;color:var(--text-secondary);pointer-events:none;">$</span>
+              <input class="input" type="number" placeholder="e.g. 79" style="padding-left:24px;">
+            </div>
+            <div class="hint">Their current website price — the starting point we negotiate from</div>
+          </div>
+          <div class="field">
+            <label>Target price you want</label>
+            <div style="display:flex;align-items:center;">
+              <span style="position:absolute;padding-left:12px;color:var(--text-secondary);pointer-events:none;">$</span>
+              <input class="input" type="number" placeholder="e.g. 50" style="padding-left:24px;">
+            </div>
+            <div class="hint">Agent pushes to hit this before you sign anything</div>
+          </div>
         </div>
       </div>
 
@@ -164,6 +202,27 @@
               <p>Late fee, annual fee, or overdraft charge — agent requests a one-time waiver.</p>
             </div>
           </div>
+          <div class="goal-option" id="goal-new-rate" style="display:none;">
+            <div class="goal-option__icon">🎯</div>
+            <div class="goal-option__text">
+              <h4>Best intro rate before I sign up</h4>
+              <p>Agent calls their sales team and negotiates a lower first-year rate before you commit. No account needed.</p>
+            </div>
+          </div>
+          <div class="goal-option" id="goal-new-fee-waive" style="display:none;">
+            <div class="goal-option__icon">🎁</div>
+            <div class="goal-option__text">
+              <h4>Waive setup / activation fees</h4>
+              <p>Installation, activation, or annual fees — agent negotiates these away as a condition of signing up.</p>
+            </div>
+          </div>
+          <div class="goal-option" id="goal-new-bonus" style="display:none;">
+            <div class="goal-option__icon">💎</div>
+            <div class="goal-option__text">
+              <h4>Better sign-up bonus or offer</h4>
+              <p>For credit cards or financial accounts — agent asks for a higher sign-up bonus than the public offer.</p>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -174,21 +233,41 @@
       </div>
 
       <script>
+        var activeStyle = 'border-color:var(--brand-700);color:var(--brand-700);background:var(--brand-50);';
         function showCategory(cat) {
-          var isBills = cat === 'bills';
-          document.getElementById('grid-bills').style.display = isBills ? '' : 'none';
-          document.getElementById('grid-financial').style.display = isBills ? 'none' : '';
-          document.getElementById('tab-bills').style.cssText = isBills ? 'border-color:var(--brand-700);color:var(--brand-700);background:var(--brand-50);' : '';
-          document.getElementById('tab-financial').style.cssText = !isBills ? 'border-color:var(--brand-700);color:var(--brand-700);background:var(--brand-50);' : '';
-          document.getElementById('goal-credit-limit').style.display = isBills ? 'none' : '';
-          document.getElementById('goal-apr').style.display = isBills ? 'none' : '';
-          document.getElementById('goal-fee').style.display = isBills ? 'none' : '';
-          if (!isBills) {
+          ['bills','financial','new'].forEach(function(c){
+            document.getElementById('tab-'+c).style.cssText = (c===cat) ? activeStyle : '';
+          });
+          document.getElementById('grid-bills').style.display = (cat==='bills') ? '' : 'none';
+          document.getElementById('grid-financial').style.display = (cat==='financial') ? '' : 'none';
+          document.getElementById('grid-new').style.display = (cat==='new') ? '' : 'none';
+          document.getElementById('existing-fields').style.display = (cat==='new') ? 'none' : '';
+          document.getElementById('new-account-fields').style.display = (cat==='new') ? '' : 'none';
+          // show/hide goal options
+          var billGoals = ['goal-options > .goal-option:nth-child(1)','goal-options > .goal-option:nth-child(2)','goal-options > .goal-option:nth-child(3)'];
+          var financialIds = ['goal-credit-limit','goal-apr','goal-fee'];
+          var newIds = ['goal-new-rate','goal-new-fee-waive','goal-new-bonus'];
+          // reset all
+          document.querySelectorAll('#goal-options .goal-option').forEach(function(el){ el.classList.remove('active'); el.style.display=''; });
+          financialIds.forEach(function(id){ document.getElementById(id).style.display='none'; });
+          newIds.forEach(function(id){ document.getElementById(id).style.display='none'; });
+          document.querySelectorAll('.goal-option').forEach(function(el,i){ el.classList.remove('active'); });
+          if (cat==='bills') {
+            document.getElementById('service-input').value = 'Internet (400 Mbps, no TV bundle)';
+            document.querySelector('#goal-options .goal-option').classList.add('active');
+          } else if (cat==='financial') {
             document.getElementById('service-input').value = 'Credit card (Sapphire Preferred)';
-            document.querySelectorAll('.goal-option').forEach(function(el,i){ el.classList.remove('active'); });
+            financialIds.forEach(function(id){ document.getElementById(id).style.display=''; });
+            // hide bill-only goals
+            var billOnly = document.querySelectorAll('#goal-options .goal-option:not([id])');
+            billOnly.forEach(function(el){ el.style.display='none'; });
             document.getElementById('goal-credit-limit').classList.add('active');
           } else {
-            document.getElementById('service-input').value = 'Internet (400 Mbps, no TV bundle)';
+            document.getElementById('service-input').value = 'Internet 400 Mbps — new signup';
+            newIds.forEach(function(id){ document.getElementById(id).style.display=''; });
+            var billOnly2 = document.querySelectorAll('#goal-options .goal-option:not([id])');
+            billOnly2.forEach(function(el){ el.style.display='none'; });
+            document.getElementById('goal-new-rate').classList.add('active');
           }
         }
       </script>
